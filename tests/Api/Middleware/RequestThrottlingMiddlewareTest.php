@@ -11,7 +11,7 @@ use Symfony\Component\Cache\Psr16Cache;
 
 class RequestThrottlingMiddlewareTest extends TestCase
 {
-    public function test_allows_requests_under_limit()
+    public function test_allows_requests_under_limit() : void
     {
         $psr6cache = new ArrayAdapter();
         $cache = new Psr16Cache($psr6cache);
@@ -32,7 +32,7 @@ class RequestThrottlingMiddlewareTest extends TestCase
         $this->assertEquals(200, $response2->getStatusCode());
     }
 
-    public function test_blocks_when_limit_exceeded()
+    public function test_blocks_when_limit_exceeded() : void
     {
         $psr6cache = new ArrayAdapter();
         $cache = new Psr16Cache($psr6cache);

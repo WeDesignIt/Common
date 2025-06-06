@@ -11,7 +11,13 @@ class CacheMiddleware implements MiddlewareInterface
 {
     private CacheInterface $cache;
     private int $ttl;
+    /**
+     * @var array<string>
+     */
     private array $bustOnMethods;
+    /**
+     * @var array<string|callable>
+     */
     private array $bustPatterns;
     /**
      * @var callable|null
@@ -22,8 +28,8 @@ class CacheMiddleware implements MiddlewareInterface
     /**
      * @param CacheInterface $cache
      * @param int $ttl
-     * @param array $bustOnMethods
-     * @param array $bustPatterns
+     * @param array<string> $bustOnMethods
+     * @param array<string|callable> $bustPatterns
      * @param callable|null $shouldCache function(RequestInterface):bool
      * @param ResponseSerializer|null $serializer
      */

@@ -27,7 +27,7 @@ abstract class ApiClient
      *
      * @param string $method HTTP method (GET, POST, PUT, DELETE, etc.)
      * @param string $uri The endpoint URI (without base URI)
-     * @param array<string, scalar|array|object|null> $query Query parameters
+     * @param array<string, mixed> $query Query parameters
      * @param array<string, mixed> $body Request body (for POST/PUT/PATCH)
      * @param array<string, string> $headers Additional headers
      * @param bool $retry Whether to retry on 401 Unauthorized

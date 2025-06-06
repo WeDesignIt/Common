@@ -11,7 +11,7 @@ use Symfony\Component\Cache\Psr16Cache;
 
 class CacheMiddlewareTest extends TestCase
 {
-    public function test_caches_get_responses()
+    public function test_caches_get_responses() : void
     {
         $psr6cache = new ArrayAdapter();
         $cache = new Psr16Cache($psr6cache);
@@ -37,7 +37,7 @@ class CacheMiddlewareTest extends TestCase
         $this->assertEquals(1, $callCount);
     }
 
-    public function test_does_not_cache_post_responses()
+    public function test_does_not_cache_post_responses() : void
     {
         $psr6cache = new ArrayAdapter();
         $cache = new Psr16Cache($psr6cache);

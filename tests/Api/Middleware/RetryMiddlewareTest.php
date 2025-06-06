@@ -10,7 +10,7 @@ use Psr\Http\Message\RequestInterface;
 
 class RetryMiddlewareTest extends TestCase
 {
-    public function test_retries_on_configured_status()
+    public function test_retries_on_configured_status() : void
     {
         $attempts = 0;
         $middleware = new RetryMiddleware(3, 10, [503]);
@@ -26,7 +26,7 @@ class RetryMiddlewareTest extends TestCase
         $this->assertEquals(3, $attempts, 'Should have retried 3 times');
     }
 
-    public function test_does_not_retry_on_success()
+    public function test_does_not_retry_on_success() : void
     {
         $middleware = new RetryMiddleware(3, 10, [503]);
         $request = new Request('GET', 'http://test.local');

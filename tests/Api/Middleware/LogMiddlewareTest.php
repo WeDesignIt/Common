@@ -10,59 +10,60 @@ use Psr\Log\LoggerInterface;
 
 class LogMiddlewareTest extends TestCase
 {
-    public function test_logs_request_and_response()
+    public function test_logs_request_and_response(): void
     {
-        // Make dummy logger that collects messages in array
+
+        /**
+         * Dummy logger that collects messages in array
+         * @var array<int, string> $messages
+         */
         $messages = [];
-        $logger = new class ($messages) implements LoggerInterface {
-            private $messages;
 
-            public function __construct(&$messages)
-            {
-                $this->messages = &$messages;
-            }
+        $logger = new class implements LoggerInterface {
+            /** @var array<int, string> */
+            public array $messages = [];
 
-            public function emergency($message, array $context = []): void
+            public function emergency(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function alert($message, array $context = []): void
+            public function alert(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function critical($message, array $context = []): void
+            public function critical(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function error($message, array $context = []): void
+            public function error(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function warning($message, array $context = []): void
+            public function warning(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function notice($message, array $context = []): void
+            public function notice(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function info($message, array $context = []): void
+            public function info(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function debug($message, array $context = []): void
+            public function debug(string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
 
-            public function log($level, $message, array $context = []): void
+            public function log($level, string|\Stringable $message, array $context = []): void
             {
                 $this->messages[] = $message;
             }
@@ -78,10 +79,9 @@ class LogMiddlewareTest extends TestCase
         $response = $middleware->process($request, $next);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertNotEmpty($messages, 'Logger should have received messages');
-        // Controleer dat er minimaal één "Request" of "Response" gelogd is
+        $this->assertNotEmpty($logger->messages, 'Logger should have received messages');
         $found = false;
-        foreach ($messages as $msg) {
+        foreach ($logger->messages as $msg) {
             if (strpos($msg, 'Request') !== false || strpos($msg, 'Response') !== false) {
                 $found = true;
                 break;

@@ -16,6 +16,10 @@ class RequestThrottlingMiddleware implements MiddlewareInterface
      * @var callable|null
      */
     private $keyGenerator;
+
+    /**
+     * @var callable
+     */
     private $responseFactory;
 
     /**
@@ -25,28 +29,18 @@ class RequestThrottlingMiddleware implements MiddlewareInterface
      * @param callable|null $keyGenerator function(RequestInterface):string
      * @param callable|null $responseFactory function(int $status, array $headers, string $body):ResponseInterface
      */
-    public function __construct(CacheInterface $cache, int $maxRequests, int $windowSeconds, mixed $keyGenerator = null, mixed $responseFactory = null)
+    public function __construct(CacheInterface $cache, int $maxRequests, int $windowSeconds, ?callable $keyGenerator = null, ?callable $responseFactory = null)
     {
         $this->cache = $cache;
         $this->maxRequests = $maxRequests;
         $this->windowSeconds = $windowSeconds;
-
-        if ($keyGenerator !== null && !is_callable($keyGenerator)) {
-            throw new \InvalidArgumentException('keyGenerator must be callable or null');
-        }
         $this->keyGenerator = $keyGenerator;
-
-        // If no responseFactory was given, take the default ResponseSerializer's factory
-        if ($responseFactory !== null && !is_callable($responseFactory)) {
-            throw new \InvalidArgumentException('responseFactory must be callable or null');
-        }
-        if ($responseFactory) {
-            $this->responseFactory = $responseFactory;
-        } else {
-            $this->responseFactory = ResponseSerializer::detectResponseFactory();
-        }
+        $this->responseFactory = $responseFactory ?? ResponseSerializer::detectResponseFactory();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function process(RequestInterface $request, callable $next): ResponseInterface
     {
         $key = $this->keyGenerator
@@ -62,7 +56,7 @@ class RequestThrottlingMiddleware implements MiddlewareInterface
                 'Retry-After' => $this->windowSeconds,
             ];
             $body = json_encode(['message' => 'Rate limit exceeded']);
-            return call_user_func($this->responseFactory, 429, $headers, $body);
+            return ($this->responseFactory)(429, $headers, $body);
         }
 
         return $next($request);
@@ -78,7 +72,9 @@ class RequestThrottlingMiddleware implements MiddlewareInterface
             return $new;
         }
 
-        $count = (int)$this->cache->get($cacheKey, 0);
+        $raw = $this->cache->get($cacheKey, 0);
+        $count = is_numeric($raw) ? (int)$raw : 0;
+
         $count++;
         $this->cache->set($cacheKey, $count, $ttl);
         return $count;

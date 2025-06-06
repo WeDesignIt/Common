@@ -10,6 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 class StackClient implements ClientInterface
 {
     private ClientInterface $client;
+    /**
+     * @var MiddlewareInterface[]
+     */
     private array $middleware;
 
     /**
