@@ -27,11 +27,11 @@ abstract class ApiClient
      *
      * @param string $method HTTP method (GET, POST, PUT, DELETE, etc.)
      * @param string $uri The endpoint URI (without base URI)
-     * @param array $query Query parameters
-     * @param array $body Request body (for POST/PUT/PATCH)
-     * @param array $headers Additional headers
+     * @param array<string, scalar|array|object|null> $query Query parameters
+     * @param array<string, mixed> $body Request body (for POST/PUT/PATCH)
+     * @param array<string, string> $headers Additional headers
      * @param bool $retry Whether to retry on 401 Unauthorized
-     * @return array Decoded JSON response
+     * @return array<string, mixed> Decoded JSON response
      * @throws \RuntimeException|\Psr\Http\Client\ClientExceptionInterface If the request fails or returns an error status code
      */
     protected function request(string $method, string $uri, array $query = [], array $body = [], array $headers = [], bool $retry = false): array
@@ -50,11 +50,14 @@ abstract class ApiClient
             $request = $request->withHeader($key, $value);
         }
         if (in_array(strtoupper($method), ['POST', 'PUT', 'PATCH'])) {
+            $bodyJson = json_encode($body);
+            if ($bodyJson === false) {
+                throw new \RuntimeException('Failed to JSON-encode body: ' . json_last_error_msg());
+            }
+
             $request = $request
                 ->withHeader('Content-Type', 'application/json')
-                ->withBody(
-                    $this->streamFactory->createStream(json_encode($body))
-                );
+                ->withBody($this->streamFactory->createStream($bodyJson));
         }
 
         $response = $this->httpClient->sendRequest($request);
@@ -70,11 +73,17 @@ abstract class ApiClient
         if ($response->getStatusCode() >= 400) {
             throw new \RuntimeException('API Error: ' . $response->getStatusCode());
         }
-        return json_decode((string)$response->getBody(), true);
+        $data = json_decode((string)$response->getBody(), true);
+        if (!is_array($data)) {
+            throw new \RuntimeException('API did not return a valid JSON array');
+        }
+        return $data;
     }
 
     /**
      * Can be added or overridden by subclasses to prepare headers.
+     * @param array<string, string> $headers
+     * @return array<string, string>
      */
     protected function prepareHeaders(array $headers): array
     {
