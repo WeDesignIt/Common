@@ -1,11 +1,11 @@
 <?php
 
-namespace WeDesignIt\Common\Tests;
+namespace WeDesignIt\Common\Tests\Http;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use WeDesignIt\Common\StackClient;
-use WeDesignIt\Common\Api\Middleware\MiddlewareInterface;
+use WeDesignIt\Common\Http\StackClient;
+use WeDesignIt\Common\Http\Middleware\MiddlewareInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDesignIt\Common\Api\Support;
+namespace WeDesignIt\Common\Http\Support;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;

@@ -1,8 +1,8 @@
 <?php
 
-namespace WeDesignIt\Common;
+namespace WeDesignIt\Common\Http;
 
-use WeDesignIt\Common\Api\Middleware\MiddlewareInterface;
+use WeDesignIt\Common\Http\Middleware\MiddlewareInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

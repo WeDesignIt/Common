@@ -1,9 +1,9 @@
 <?php
 
-namespace WeDesignIt\Common\Tests\Api\Middleware;
+namespace WeDesignIt\Common\Tests\Http\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use WeDesignIt\Common\Api\Middleware\RetryMiddleware;
+use WeDesignIt\Common\Http\Middleware\RetryMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;

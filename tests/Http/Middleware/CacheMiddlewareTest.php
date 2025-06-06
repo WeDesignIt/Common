@@ -1,9 +1,9 @@
 <?php
 
-namespace WeDesignIt\Common\Tests\Api\Middleware;
+namespace WeDesignIt\Common\Tests\Http\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use WeDesignIt\Common\Api\Middleware\CacheMiddleware;
+use WeDesignIt\Common\Http\Middleware\CacheMiddleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;

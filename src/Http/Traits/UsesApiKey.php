@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDesignIt\Common\Api\Traits;
+namespace WeDesignIt\Common\Http\Traits;
 
 trait UsesApiKey
 {

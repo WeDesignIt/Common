@@ -5,7 +5,7 @@ namespace WeDesignIt\Common\Api;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use WeDesignIt\Common\Api\Support\DefaultHttpFactory;
+use WeDesignIt\Common\Http\Support\DefaultHttpFactory;
 
 abstract class ApiClient
 {
