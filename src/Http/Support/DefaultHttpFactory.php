@@ -1,10 +1,11 @@
 <?php
 
-namespace WeDesignIt\Common\Api\Support;
+namespace WeDesignIt\Common\Http\Support;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Swis\Laravel\Bridge\PsrHttpClient\Client as LaravelHttpClientBridge;
 
 class DefaultHttpFactory
 {
@@ -14,8 +15,8 @@ class DefaultHttpFactory
             return new \GuzzleHttp\Client();
         }
         if (class_exists('\Illuminate\Http\Client\Factory')) {
-            // Laravel HTTP client via PSR-18 bridge package (optional, https://github.com/laravel/laravel-psr18)
-            return new \Laravel\Psr18\HttpClientAdapter(app('http'));
+            // Laravel HTTP client via PSR-18 bridge package (optional, https://github.com/swisnl/laravel-psr-http-client-bridge)
+            return new LaravelHttpClientBridge(app('http'));
         }
         throw new \RuntimeException('No suitable HTTP client found');
     }

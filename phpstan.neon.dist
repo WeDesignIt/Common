@@ -13,4 +13,5 @@ parameters:
   inferPrivatePropertyTypeFromConstructor: true
 
   ignoreErrors:
-    - '#^Call to an undefined method#'
+    - '#Function app not found#'
+#    - '#^Call to an undefined method#'

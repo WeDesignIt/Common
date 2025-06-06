@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDesignIt\Common\Api\Traits;
+namespace WeDesignIt\Common\Http\Traits;
 
 trait UsesBearerToken
 {
@@ -11,6 +11,10 @@ trait UsesBearerToken
         return $this->bearerToken;
     }
 
+    /**
+     * @param array<string, string> $headers
+     * @return array<string, string>
+     */
     protected function prepareHeaders(array $headers): array
     {
         $token = $this->getToken();

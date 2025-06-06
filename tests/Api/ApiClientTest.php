@@ -11,11 +11,11 @@ use GuzzleHttp\Psr7\Request;
 
 class ApiClientTest extends TestCase
 {
-    public function test_request_makes_psr_call()
+    public function test_request_makes_psr_call(): void
     {
         $client = $this->createMock(ClientInterface::class);
         $requestFactory = $this->createMock(RequestFactoryInterface::class);
-        $response = new Response(200, [], json_encode(['ok' => true]));
+        $response = new Response(200, [], json_encode(['ok' => true]) ?: '{}');
 
         $requestFactory->method('createRequest')
             ->willReturn(new Request('GET', 'http://test.local/me'));
@@ -25,7 +25,10 @@ class ApiClientTest extends TestCase
             ->willReturn($response);
 
         $apiClient = new class ('http://test.local', $client, $requestFactory) extends ApiClient {
-            public function getMe()
+            /**
+             * @return array<string, mixed>
+             */
+            public function getMe(): array
             {
                 return $this->request('GET', '/me');
             }

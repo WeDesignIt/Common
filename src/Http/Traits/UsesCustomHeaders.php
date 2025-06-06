@@ -1,6 +1,6 @@
 <?php
 
-namespace WebDesignit\Common\Api\Traits;
+namespace WeDesignIt\Common\Http\Traits;
 
 trait UsesCustomHeaders
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDesignit\Common\Api\Traits;
+namespace WeDesignIt\Common\Http\Traits;
 
 trait UsesOauth2
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDesignIt\Common\Api\Response;
+namespace WeDesignIt\Common\Http\Response;
 
 use Psr\Http\Message\ResponseInterface;
 
@@ -44,6 +44,8 @@ class ResponseSerializer
 
     /**
      * Serialize ResponseInterface to array.
+     *
+     * @return array{status: int, headers: array<string, array<int, string>>, body: string}
      */
     public function serialize(ResponseInterface $response): array
     {
@@ -56,6 +58,8 @@ class ResponseSerializer
 
     /**
      * Deserialize array to PSR-7 response object.
+     *
+     * @param array<string, mixed> $data
      */
     public function deserialize(array $data): ResponseInterface
     {

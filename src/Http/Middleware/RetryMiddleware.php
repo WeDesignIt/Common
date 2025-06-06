@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDesignIt\Common\Api\Middleware;
+namespace WeDesignIt\Common\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -9,14 +9,20 @@ class RetryMiddleware implements MiddlewareInterface
 {
     protected int $maxAttempts;
     protected int $baseDelayMs;
+    /**
+     * @var array<int>
+     */
     protected array $retryOnStatus;
+    /**
+     * @var array<string>
+     */
     protected array $retryOnException;
 
     /**
      * @param int $maxAttempts
      * @param int $baseDelayMs
-     * @param array $retryOnStatus (e.g. [429, 500, 502, 503, 504])
-     * @param array $retryOnException (classnames as string, e.g. [\GuzzleHttp\Exception\ServerException::class])
+     * @param array<int> $retryOnStatus (e.g. [429, 500, 502, 503, 504])
+     * @param array<string> $retryOnException (classnames as string, e.g. [\GuzzleHttp\Exception\ServerException::class])
      */
     public function __construct(int $maxAttempts = 3, int $baseDelayMs = 200, array $retryOnStatus = [429, 500, 502, 503, 504], array $retryOnException = [])
     {
@@ -75,8 +81,10 @@ class RetryMiddleware implements MiddlewareInterface
 
     /**
      * Gets response from Exception (if present). Compatible with Guzzle, HTTPlug/PSR, etc.
+     * @param \Throwable $e
+     * @return ResponseInterface|null
      */
-    protected function extractResponseFromException($e): ?ResponseInterface
+    protected function extractResponseFromException(\Throwable $e): ?ResponseInterface
     {
         // For Guzzle 7+
         if (method_exists($e, 'getResponse')) {
