@@ -1,0 +1,16 @@
+parameters:
+  level: max
+  paths:
+    - src
+    - tests
+
+  checkMissingIterableValueType: true
+  checkGenericClassInNonGenericObjectType: true
+  checkUninitializedProperties: true
+  checkUnionTypes: true
+  checkExplicitMixed: true
+  checkMissingTypehints: true
+  inferPrivatePropertyTypeFromConstructor: true
+
+  ignoreErrors:
+    - '#^Call to an undefined method#'

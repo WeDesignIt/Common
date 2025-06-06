@@ -1,0 +1,3 @@
+# Traits
+
+Documenation will follow.
