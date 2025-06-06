@@ -44,7 +44,7 @@ The MIT License (MIT). Please see [License File](license.md) for more informatio
 
 [icon-version]: https://img.shields.io/packagist/v/WeDesignIt/Common?style=flat-square
 [icon-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[icon-github-actions]: https://img.shields.io/github/actions/workflow/status/wedesignit/common/ci.yml?label=tests&branch=master&style=flat-square
+[icon-github-actions]: https://img.shields.io/github/actions/workflow/status/wedesignit/common/ci.yml?label=tests&branch=main&style=flat-square
 [icon-downloads]: https://img.shields.io/packagist/dt/wedesignit/common?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/wedesignit/common
