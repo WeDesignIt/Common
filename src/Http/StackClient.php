@@ -6,6 +6,7 @@ use WeDesignIt\Common\Http\Middleware\MiddlewareInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use WeDesignIt\Common\Http\Support\DefaultHttpFactory;
 
 class StackClient implements ClientInterface
 {
@@ -16,12 +17,12 @@ class StackClient implements ClientInterface
     private array $middleware;
 
     /**
-     * @param ClientInterface $client A PSR-18 client implementation (e.g. Guzzle)
      * @param MiddlewareInterface[] $middleware Array of middlewares (in processing order)
+     * @param ClientInterface|null $client A PSR-18 client implementation (e.g. Guzzle). If null, a default client will be created.
      */
-    public function __construct(ClientInterface $client, array $middleware = [])
+    public function __construct(array $middleware = [], ?ClientInterface $client = null)
     {
-        $this->client = $client;
+        $this->client = $client ?? DefaultHttpFactory::makeClient();
         $this->middleware = $middleware;
     }
 

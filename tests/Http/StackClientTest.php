@@ -61,7 +61,7 @@ class StackClientTest extends TestCase
             }
         };
 
-        $stackClient = new StackClient($client, [$middleware1, $middleware2]);
+        $stackClient = new StackClient([$middleware1, $middleware2], $client);
         $request = new Request('GET', 'http://test.local');
         $response = $stackClient->sendRequest($request);
 

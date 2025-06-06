@@ -26,23 +26,17 @@ such that all attempts are logged, including retries, and retries only happen af
 
 example usage for Laravel with Guzzle:
 ```php
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Psr7\HttpFactory;
-
 use WeDesignIt\Common\Api\Middleware\StackClient;
 use WeDesignIt\Common\Api\Middleware\RetryMiddleware;
 use WeDesignIt\Common\Api\Middleware\LoggingMiddleware;
 
-$httpClient = new GuzzleClient();
-$factory = new HttpFactory();
-
 $middleware = [
-    new RetryMiddleware(3, 250),
     new LoggingMiddleware($app['log']),
+    new RetryMiddleware(3, 250),
     // Add more middlewares as needed
 ];
 
-$stack = new StackClient($httpClient, $middleware);
+$stack = new StackClient($middleware);
 ```
 
 ## Registering to the service container
@@ -60,16 +54,14 @@ use WeDesignIt\Common\Api\Middleware\LoggingMiddleware;
 public function register()
 {
     $this->app->singleton(ApiClient::class, function ($app) {
-        $httpClient = new GuzzleClient();
-        $factory = new HttpFactory();
-
         $middleware = [
+            new LoggingMiddleware($app['log']), // Log requests and responses
             new RetryMiddleware(3, 250),
-            new LoggingMiddleware($app['log']),
             // More middlewares can be added here
         ];
 
-        $stack = new StackClient($httpClient, $middleware);
+        $stack = new StackClient($middleware);
+        $factory = new HttpFactory();
 
         return new ApiClient(
             $stack,
