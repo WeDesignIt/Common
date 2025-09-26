@@ -21,6 +21,7 @@ class LogMiddleware implements MiddlewareInterface
             'method' => $request->getMethod(),
             'uri' => (string)$request->getUri(),
             'headers' => $request->getHeaders(),
+            'body' => $request->getBody()->getContents(),
         ]);
 
         try {
